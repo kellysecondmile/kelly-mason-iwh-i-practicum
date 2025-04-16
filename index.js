@@ -35,9 +35,9 @@ app.post("/update-cobj", async (req, res) => {
         {
           associations: [],
           properties: {
-            name,
-            year,
-            genre
+            movie_name: name,
+            movie_release_year: year,
+            movie_genre: genre
           }
         },
         {
@@ -47,12 +47,12 @@ app.post("/update-cobj", async (req, res) => {
           }
         }
       )
+      res.redirect("/")
     } catch (e) {
       console.error(e)
       res.status(500).send("Failure in POST /update-cobj")
     }
   
-    res.redirect("/")
     return
   
   })
