@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title= `${title}`
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+  body
+    form(action="/update-cobj" method="POST")
+      div
+        label(for="name") Name:
+        input(type="text" id="name" name="name" required)
+      div
+        label(for="year") Year:
+        input(type="number" id="year" name="year" required)
+      div
+        label(for="genre") Genre:
+        select(id="genre" name="genre" required)
+          option(value="action") Action
+          option(value="comedy") Comedy
+          option(value="horror") Horror
+          option(value="documentary") Documentary
+          option(value="romance") Romance
+          option(value="true-crime") True Crime
+      div
+        button(type="submit") Submit
+    a(href="/") Return To Homepage
