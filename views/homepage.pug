@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title= title
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+  body
+    div.container
+      h1= title
+      
+      p
+        a(href="/update-cobj") Add to this table
+      if records && records.length > 0
+        table
+          thead
+            tr
+              each val, key in records[0].properties
+                th= key
+          tbody
+            each record in records
+              tr
+                each value, key in record.properties
+                  td= value
+                
+      else
+        p No records found.

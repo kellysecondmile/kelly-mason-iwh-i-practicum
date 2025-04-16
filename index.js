@@ -13,6 +13,42 @@ console.log(PRIVATE_APP_ACCESS)
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
 // * Code for Route 1 goes here
+app.get("/", async (req, res) => {
+    try {
+      // Fetch your CRM records here
+      // This is a placeholder - replace with your actual API call
+      const response = await axios.get(
+        `https://api.hubapi.com/crm/v3/objects/2-43077860?properties=movie_name,movie_release_year,movie_genre`,
+        {
+          headers: {
+            authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+            "content-type": "application/json"
+          }
+        }
+      );
+  
+      const records = response.data.results;
+  
+      res.render('homepage', {
+        title: 'CRM Records',
+        records: records.map(r => ({
+          properties: {
+            movie_name: r.properties.movie_name,
+            movie_release_year: r.properties.movie_release_year,
+            movie_genre: r.properties.movie_genre
+          }
+        }))
+      });
+    } catch (error) {
+      console.error('Error fetching records:', error);
+      res.render('homepage', {
+        title: 'CRM Records',
+        records: [],
+        error: 'Homepage Failed'
+      });
+    }
+    return
+  })
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
 
