@@ -1,15 +1,15 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
-
+require('dotenv').config();
 app.set('view engine', 'pug');
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.
-const PRIVATE_APP_ACCESS = '';
-
+const PRIVATE_APP_ACCESS = process.env.KEY;
+console.log(PRIVATE_APP_ACCESS)
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
 // * Code for Route 1 goes here
@@ -25,7 +25,37 @@ app.get("/update-cobj", async (req, res) => {
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
 // * Code for Route 3 goes here
+app.post("/update-cobj", async (req, res) => {
 
+    const { name, year, genre } = req.body
+  
+    try {
+      await axios.post(
+        `https://api.hubapi.com/crm/v3/objects/2-43077860`,
+        {
+          associations: [],
+          properties: {
+            name,
+            year,
+            genre
+          }
+        },
+        {
+          headers: {
+            authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+            "content-type": "application/json"
+          }
+        }
+      )
+    } catch (e) {
+      console.error(e)
+      res.status(500).send("Failure in POST /update-cobj")
+    }
+  
+    res.redirect("/")
+    return
+  
+  })
 /** 
 * * This is sample code to give you a reference for how you should structure your calls. 
 
